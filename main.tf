@@ -31,6 +31,11 @@ provider "openstack" {
   region = "${var.oRegion}"
   region = "regionOne"
 }
+# create a virtual router
+resource "openstack_networking_router_v2" "router_1" {
+  name = "router_1"
+  external_network_id = ""
+}
 
 # create network
 resource "openstack_networking_network_v2" "network_1" {
@@ -47,3 +52,6 @@ resource "openstack_networking_subnet_v2" "subnet1" {
   
 }
 
+resource "type" "name" {
+  
+}
