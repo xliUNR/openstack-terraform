@@ -22,6 +22,10 @@ variable "adminPass" {
   description = "password for admin credentials"
 }
 
+variable "extGateway" {
+  description = "external gateway IP"
+}
+
 # Configure openstack provider
 provider "openstack" {
   user_name = "${var.userName}"
@@ -31,27 +35,40 @@ provider "openstack" {
   region = "${var.oRegion}"
   region = "regionOne"
 }
-# create a virtual router
-resource "openstack_networking_router_v2" "router_1" {
-  name = "router_1"
-  external_network_id = ""
+
+#create an external network
+resource "openstack_networking_network_v2" "extNet" {
+  name = "extNet"
+  external = "true"
 }
 
-# create network
-resource "openstack_networking_network_v2" "network_1" {
-  name = "network_1"
+
+# create internal network
+resource "openstack_networking_network_v2" "internalNet_1" {
+  name = "internalNet_1"
   admin_state_up = "true"
 }
 
 # create test subnet
 resource "openstack_networking_subnet_v2" "subnet1" {
   name = "subnet_1"
-  network_id = ""
+  network_id = "${openstack_networking_network_v2.internalNet_1.id}"
   cidr = ""
   ip_version = 4
   
 }
 
+# create a virtual router
+resource "openstack_networking_router_v2" "router_1" {
+  name = "router_1"
+  external_network_id = "${var.extGateway}"
+}
+
+# create an interface between router and internal net
+resource "openstack_networking_router_interface_v2" "internal_router" {
+  router_id = "${openstack_networking_router_v2.router_1.id}"
+  subnet_id = "${openstack_networking_router_v2.subnet1.id}"  
+}
 resource "type" "name" {
   
 }
