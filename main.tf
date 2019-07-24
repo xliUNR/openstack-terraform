@@ -37,8 +37,8 @@ provider "openstack" {
 }
 
 #create an external provider network
-resource "openstack_networking_network_v2" "extNet" {
-  name = "extNet"
+resource "openstack_networking_network_v2" "externalnet" {
+  name = "externalnet"
   external = "true"
   shared = "true"
   segments = ["134.197.20.175","flat"]
