@@ -28,13 +28,26 @@ variable "extGateway" {
 
 #create an external provider network
 resource "openstack_networking_network_v2" "extnet" {
-  name = "extnet"
+  name     = "extnet"
   external = "true"
-  shared = "true"
+  shared   = "true"
   segments {
 	physical_network = "provider"
-	network_type = "flat"
+	network_type     = "flat"
    }
+}
+
+# create external subnet
+resource "openstack_networking_subnet_v2" "external_subnet_1" {
+  name            = "external_subnet_1"
+  cidr            = "134.197.20.175/24"
+  dns_nameservers = ["127.0.0.53"]
+  network_id      = "${openstack_networking_network_v2.extnet.id}"	
+  enable_dhcp = "true"
+  allocation_pool {
+    start = "134.197.20.190" 
+    end   = "134.197.20.200"
+  }
 }
 
 /*
