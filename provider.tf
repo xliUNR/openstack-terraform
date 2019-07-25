@@ -5,5 +5,4 @@ provider "openstack" {
   auth_url = "${var.authURL}"
   password = "${var.adminPass}"
   region = "${var.oRegion}"
-  region = "regionOne"
 }

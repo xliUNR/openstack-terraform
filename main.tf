@@ -1,7 +1,7 @@
 #  Setup input variables, don't want secrets in .tf
 variable "oRegion" {
   description = "Openstack region"
-  default = "regionOne"
+  default = "RegionOne"
 }
 
 variable "authURL" {
@@ -26,26 +26,19 @@ variable "extGateway" {
   description = "external gateway IP"
 }
 
-# Configure openstack provider
-provider "openstack" {
-  user_name = "${var.userName}"
-  tenant_name = "${var.tenantName}"
-  auth_url = "${var.authURL}"
-  password = "${var.adminPass}"
-  region = "${var.oRegion}"
-  region = "regionOne"
-}
-
 #create an external provider network
-resource "openstack_networking_network_v2" "externalnet" {
-  name = "externalnet"
+resource "openstack_networking_network_v2" "extnet" {
+  name = "extnet"
   external = "true"
   shared = "true"
-  segments = ["134.197.20.175","flat"]
+  segments {
+	physical_network = "provider"
+	network_type = "flat"
+   }
 }
 
-
-/*# create internal network
+/*
+# create internal network
 resource "openstack_networking_network_v2" "internalNet_1" {
   name = "internalNet_1"
   admin_state_up = "true"
