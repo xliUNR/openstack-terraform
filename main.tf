@@ -41,17 +41,18 @@ resource "openstack_networking_network_v2" "extnet" {
 resource "openstack_networking_subnet_v2" "external_subnet_1" {
   name            = "external_subnet_1"
   cidr            = "134.197.20.175/24"
+  #dns_nameservers = ["8.8.8.8"]
   dns_nameservers = ["127.0.0.53"]
   network_id      = "${openstack_networking_network_v2.extnet.id}"	
-  enable_dhcp = "true"
+  enable_dhcp = "false" #For some reason dhcp breaks DNS service on controller node so have to disable
   allocation_pool {
     start = "134.197.20.190" 
-    end   = "134.197.20.200"
+    end   = "134.197.20.195"
   }
 }
 
-/*
-# create internal network
+
+# create internal self service network
 resource "openstack_networking_network_v2" "internalNet_1" {
   name = "internalNet_1"
   admin_state_up = "true"
@@ -61,12 +62,12 @@ resource "openstack_networking_network_v2" "internalNet_1" {
 resource "openstack_networking_subnet_v2" "subnet1" {
   name = "subnet_1"
   network_id = "${openstack_networking_network_v2.internalNet_1.id}"
-  cidr = ""
+  cidr = "192.168.1.20/24" # This choice is arbitrary
   ip_version = 4
-  dns_nameservers = ["8.8.8.8"]
+  dns_nameservers = ["127.0.0.53"]
   
 }
-
+/*
 # create a virtual router
 resource "openstack_networking_router_v2" "router_1" {
   name = "router_1"
