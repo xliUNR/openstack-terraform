@@ -67,7 +67,7 @@ resource "openstack_networking_subnet_v2" "subnet1" {
   dns_nameservers = ["127.0.0.53"]
   
 }
-/*
+
 # create a virtual router
 resource "openstack_networking_router_v2" "router_1" {
   name = "router_1"
@@ -82,4 +82,4 @@ resource "openstack_networking_router_interface_v2" "internal_router" {
 resource "type" "name" {
   
 }
-*/
+
