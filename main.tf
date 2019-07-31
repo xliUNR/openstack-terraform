@@ -71,15 +71,17 @@ resource "openstack_networking_subnet_v2" "subnet1" {
 # create a virtual router
 resource "openstack_networking_router_v2" "router_1" {
   name = "router_1"
-  external_network_id = "${var.extGateway}"
+  external_network_id = "${openstack_networking_network_v2.extnet.id}"
 }
 
 # create an interface between router and internal net
 resource "openstack_networking_router_interface_v2" "internal_router" {
   router_id = "${openstack_networking_router_v2.router_1.id}"
-  subnet_id = "${openstack_networking_router_v2.subnet1.id}"  
+  subnet_id = "${openstack_networking_subnet_v2.subnet1.id}"  
 }
+
+/*
 resource "type" "name" {
   
 }
-
+*/
