@@ -27,8 +27,8 @@ variable "extGateway" {
 }
 
 #create an external provider network
-resource "openstack_networking_network_v2" "extnet" {
-  name     = "extnet"
+resource "openstack_networking_network_v2" "provider" {
+  name     = "provider"
   external = "true"
   shared   = "true"
   segments {
@@ -43,7 +43,7 @@ resource "openstack_networking_subnet_v2" "external_subnet_1" {
   cidr            = "134.197.20.175/24"
   #dns_nameservers = ["8.8.8.8"]
   dns_nameservers = ["127.0.0.53"]
-  network_id      = "${openstack_networking_network_v2.extnet.id}"	
+  network_id      = "${openstack_networking_network_v2.provider.id}"	
   enable_dhcp = "false" #For some reason dhcp breaks DNS service on controller node so have to disable
   allocation_pool {
     start = "134.197.20.190" 
@@ -71,9 +71,15 @@ resource "openstack_networking_subnet_v2" "subnet1" {
 # create a virtual router
 resource "openstack_networking_router_v2" "router_1" {
   name = "router_1"
-  external_network_id = "${openstack_networking_network_v2.extnet.id}"
+  #external_network_id = "${openstack_networking_network_v2.provider.id}"
 }
 
+/*# create external router
+resource "openstack_networking_router_v2" "extrouter" {
+  name = "extrouter"
+  external_network_id = "${openstack_networking_network_v2.provider.id}"
+}
+*/
 # create an interface between router and internal net
 resource "openstack_networking_router_interface_v2" "internal_router" {
   router_id = "${openstack_networking_router_v2.router_1.id}"
