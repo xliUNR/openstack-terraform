@@ -36,7 +36,7 @@ resource "openstack_networking_network_v2" "provider" {
 	network_type     = "flat"
    }
 }
-
+#
 # create external subnet
 resource "openstack_networking_subnet_v2" "external_subnet_1" {
   name            = "external_subnet_1"
