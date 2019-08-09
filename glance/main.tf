@@ -33,3 +33,12 @@ resource "openstack_compute_flavor_v2" "windows_8gb_16cpu_40gb" {
   is_public = "true"
 }
 
+# Make an image, and upload to glance
+
+resource "openstack_images_image_v2" "WindowsServer2012" {
+  name = "windowsServer2012"
+  local_file_path = "${var.imageFP}"
+  disk_format = "qcow2"
+  container_format = "bare"
+  
+}
