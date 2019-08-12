@@ -2,12 +2,12 @@
 
 # Create network using network module
 module "neutron" {
-  source = "modules/neutron"
+  source = "./modules/neutron"
   # Now here you can add variables used in the modules
   # But for now it is all hardcoded.
 }
 
 module "glance" {
-  source = "modules/glance"
+  source = "./modules/glance"
   
 }
