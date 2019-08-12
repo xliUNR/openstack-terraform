@@ -1,31 +1,4 @@
-#  Setup input variables, don't want secrets in .tf
-variable "oRegion" {
-  description = "Openstack region"
-  default = "RegionOne"
-}
-
-variable "authURL" {
-  description = "Authentication url"
-}
-
-variable "userName" {
-  description = "user name for administrator account"
-  default = "admin"
-}
-
-variable "tenantName" {
-  description = "openstack tenant name"
-  default = "admin"
-}
-
-variable "adminPass" {
-  description = "password for admin credentials"
-}
-
-variable "extGateway" {
-  description = "external gateway IP"
-}
-
+# This file contains the network infrastructure using neutron service
 #create an external provider network
 resource "openstack_networking_network_v2" "provider" {
   name     = "provider"
