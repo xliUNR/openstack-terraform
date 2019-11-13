@@ -3,8 +3,26 @@
 variable "winServer2012FP" {
   description = "File path for windows server 2012 image"
 }
+variable "cirrOSFP" {
+  description = "File path for CirrOS image"
+}
 
 # First up is flavors, which specifies virtual hardware
+resource "openstack_compute_flavor_v2" "smallTest" {
+  name      = "smallTest"
+  ram       = "1"
+  vcpus     = "1"
+  disk      = "1"
+  is_public = "true"
+}
+resource "openstack_compute_flavor_v2" "winTest" {
+  name      = "smallTest"
+  ram       = "2"
+  vcpus     = "2"
+  disk      = "15"
+  is_public = "true"
+}
+
 resource "openstack_compute_flavor_v2" "windows_4gb_8cpu_40gb" {
   name      = "windows_4gb_8cpu_40gb"
   ram       =  "4096"
@@ -37,6 +55,7 @@ resource "openstack_compute_flavor_v2" "windows_8gb_16cpu_40gb" {
   is_public = "true"
 }
 
+
 # Make an image, and upload to glance
 
 resource "openstack_images_image_v2" "WindowsServer2012" {
@@ -45,4 +64,12 @@ resource "openstack_images_image_v2" "WindowsServer2012" {
   disk_format = "qcow2"
   container_format = "bare"
   visibility = "public"  
+}
+
+resource "openstack_images_image_v2" "cirrOS" {
+  name = "cirrOS"
+  local_file_path = var.cirrOSFP
+  disk_format = "qcow2"
+  container_format = "bare"
+  visibility = "public"
 }
