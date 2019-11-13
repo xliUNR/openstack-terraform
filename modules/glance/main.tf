@@ -44,5 +44,5 @@ resource "openstack_images_image_v2" "WindowsServer2012" {
   local_file_path = var.winServer2012FP
   disk_format = "qcow2"
   container_format = "bare"
-  
+  visibility = "public"  
 }
